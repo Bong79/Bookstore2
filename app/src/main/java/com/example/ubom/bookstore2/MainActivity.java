@@ -1,12 +1,9 @@
 package com.example.ubom.bookstore2;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        displayDatabaseInfo();
+    }
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
      * the pets database.
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 null);                   // The sort order
 
         TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+
 
         try {
             // Create a header in the Text View that looks like this:

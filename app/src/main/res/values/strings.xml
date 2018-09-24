@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Bookstore2</string>
+    <string name="add_new_book" />
+    <string name="edit_book">edit</string>
+    <string name="category_product_name">category_product_name</string>
+    <string name="hint_product_name">hint_product_name</string>
+    <string name="action_save">action</string>
+    <string name="price">price1</string>
+    <string name="hint_book_price">hint_book_price</string>
+    <string name="quantity">quantity</string>
+    <string name="hint_quantity">hint_quantity</string>
+    <string name="how_many_books_in_stock">how_many_books_in_stock</string>
+    <string name="supplier_category">supplier_category</string>
+    <string name="hint_supplier">hint_supplier</string>
+    <string name="hint_supplier_phone_number">hint_supplier_phone_number</string>
+    <string name="editor_update_book_failed">editor_update_book_failed</string>
+    <string name="editor_update_book_successful">editor_update_book_successful</string>
+    <string name="editor_insert_book_successful">editor_insert_book_successfuleditor_insert_book_successfuleditor_insert_book_successfuleditor_insert_book_successfuleditor_insert_book_successfuleditor_insert_book_successfuleditor_insert_book_successful</string>
+    <string name="editor_insert_book_failed">editor_insert_book_failed</string>
 </resources>
