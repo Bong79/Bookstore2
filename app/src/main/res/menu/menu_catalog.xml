@@ -20,6 +20,4 @@
             android:id="@+id/action_insert_dummy_data"
             android:title="action_insert_dummy_data"
             app:showAsAction="never" />
-
-
 </menu>

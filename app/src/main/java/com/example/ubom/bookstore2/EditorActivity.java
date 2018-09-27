@@ -89,18 +89,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mSupplierEditText = (EditText) findViewById(R.id.edit_supplier_name);
         mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_supplier_phone_number);
-
-
-//        /**   Setup OnTouchListeners on all the input fields, so we can determine if the user
-//         has touched or modified them. This will let us know if there are unsaved changes
-//         or not, if the user tries to leave the editor without saving**/
-//        mNameEditText.setOnTouchListener(mTouchListener);
-//        mPriceEditText.setOnTouchListener(mTouchListener);
-//        mQuantityEditText.setOnTouchListener(mTouchListener);
-//        mSupplierEditText.setOnTouchListener(mTouchListener);
-//        mSupplierPhoneNumberEditText.setOnTouchListener(mTouchListener);
-//
-//        setupSpinner();
     }
 
     /**
@@ -211,21 +199,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         return true;
     }
 
-//    /**
-//     * This method is called after invalidateOptionsMenu(), so that the
-//     * menu can be updated (some menu items can be hidden or made visible).
-//     */
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        super.onPrepareOptionsMenu(menu);
-//        // If this is a new pet, hide the "Delete" menu item.
-//        if (currentBookUri == null) {
-//            MenuItem menuItem = menu.findItem(R.id.action_delete);
-//            menuItem.setVisible(false);
-//        }
-//        return true;
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -237,30 +210,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
                 //Exit activity and return to the CatalogActivity
                 finish();
                 return true;
-            // Respond to a click on the "Up" arrow button in the app bar
-//            case android.R.id.home:
-//                // If the book hasn't changed, continue with navigating up to parent activity
-//                // which is the {@link MainActivity}.
-//                if (!mBookHasChanged) {
-//                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
-//                    return true;
-//                }
-//
-//                // Otherwise if there are unsaved changes, setup a dialog to warn the user.
-//                // Create a click listener to handle the user confirming that
-//                // changes should be discarded.
-//                DialogInterface.OnClickListener discardButtonClickListener =
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                // User clicked "Discard" button, navigate to parent activity.
-//                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
-//                            }
-//                        };
-//
-//                // Show a dialog that notifies the user they have unsaved changes
-//                showUnsavedChangesDialog(discardButtonClickListener);
-//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
