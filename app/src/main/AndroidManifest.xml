@@ -16,6 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditorActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/EditorFieldStyle">
+
+        </activity>
+
+        <provider
+            android:name=".BookProvider"
+            android:authorities="com.example.android.books"
+            android:exported="false" />
+
     </application>
 
 </manifest>

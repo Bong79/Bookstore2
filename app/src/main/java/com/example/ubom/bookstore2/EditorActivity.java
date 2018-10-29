@@ -24,6 +24,32 @@ import com.example.ubom.bookstore2.BookContract.ProductEntry;
  * Allows user to create a new book or edit an existing one.
  */
 public abstract class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        mCursorAdapter.swapCursor(data);
+//    }
+//
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+//        // Define a projection that specifies which columns from the database
+//        // you will actually use after this query.
+//        String[] projection = {
+//                BookContract.ProductEntry._ID,
+//                BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
+//                BookContract.ProductEntry.COLUMN_PRICE,
+//                BookContract.ProductEntry.COLUMN_QUANTITY };
+//
+//        // Now create and return a CursorLoader that will take care of
+//        // creating a Cursor for the data being displayed.
+//        return new CursorLoader(this,
+//                BookContract.ProductEntry.CONTENT_URI,
+//                projection,
+//                null,
+//                null,
+//                null);
+//    }
+
 
     // Identifies a particular Loader being used in this component
     private static final int CURRENT_BOOK_LOADER = 0;
@@ -63,7 +89,7 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         setContentView(R.layout.activity_editor);
 
         // examine the intent that was used to launch this activity,
-        // in order to figure out if we're creating a new pat or editing the existing pet
+        // in order to figure out if we're creating a new book or editing the existing book
         Intent intent = getIntent();
         currentBookUri = intent.getData();
 
@@ -78,7 +104,7 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         } else {
             setTitle(getString(R.string.edit_book));
 
-            // Initialize a loader to read the pet data from the database
+            // Initialize a loader to read the book data from the database
             // and display the current values in the editor
             getLoaderManager().initLoader(CURRENT_BOOK_LOADER, null, this);
 
@@ -145,7 +171,7 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supplierString);
         values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneNumberOfSupplierString);
 
-        // Determine if this is a new or existing book by checking if mCurrentPetUri is null or not
+        // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
         if (currentBookUri == null) {
             // This is a NEW book, so insert a new book into the provider,
             // returning the content URI for the new book.

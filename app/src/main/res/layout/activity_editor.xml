@@ -142,7 +142,7 @@ tools:context=".EditorActivity">
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
 
-            <!-- Breed field -->
+            <!-- Ph. # field -->
             <EditText
                 android:id="@+id/edit_supplier_phone_number"
                 android:hint="@string/hint_supplier_phone_number"

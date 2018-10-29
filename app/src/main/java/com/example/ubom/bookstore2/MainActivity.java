@@ -1,114 +1,111 @@
 package com.example.ubom.bookstore2;
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    public static final int BOOK_LOADER = 0;
+    BookCursorAdapter mCursorAdapter;
+
 
     private BookDbHelper mDbHelper;
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                BookContract.ProductEntry._ID,
+                BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
+                BookContract.ProductEntry.COLUMN_PRICE,
+                BookContract.ProductEntry.COLUMN_QUANTITY };
+
+        // Now create and return a CursorLoader that will take care of
+        // creating a Cursor for the data being displayed.
+        return new CursorLoader(this,
+                BookContract.ProductEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    }
+        // Setup FAB to open EditorActivity
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                startActivity(intent);
+            }
+        });
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
-
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
-     */
-    private void displayDatabaseInfo() {
-        // Create and/or open a database to read from it
         mDbHelper = new BookDbHelper(this);
 
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                BookContract.ProductEntry._ID,
-                BookContract.ProductEntry.COLUMN_PRICE,
-                BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
-                BookContract.ProductEntry.COLUMN_QUANTITY,
-                BookContract.ProductEntry.COLUMN_SUPPLIER_NAME,
-                BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER
-        };
+        ListView booksListView = (ListView) findViewById(R.id.list);
 
+    // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+    View emptyView = findViewById(R.id.empty_view);
+        booksListView.setEmptyView(emptyView);
 
-        // Perform a query on the pets table
-        Cursor cursor = db.query(
-                BookContract.ProductEntry.TABLE_NAME,   // The table to query
-                projection,            // The columns to return
-                null,                  // The columns for the WHERE clause
-                null,                  // The values for the WHERE clause
-                null,                  // Don't group the rows
-                null,                  // Don't filter by row groups
-                null);                   // The sort order
+    // Setup an Adapter to create a list item for each row of book data in the Cursor.
+    mCursorAdapter = new BookCursorAdapter(this, null);
+    // Attach the adapter to the ListView.
+        booksListView.setAdapter(mCursorAdapter);
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+        booksListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 
+    {
 
-        try {
-            // Create a header in the Text View that looks like this:
-            //
-            // The books table contains <number of rows in Cursor> books.
-            //price, quantity, product name, supplier name, supplier phone
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-            displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
-            displayView.append(BookContract.ProductEntry._ID + " - " +
-                    BookContract.ProductEntry.COLUMN_PRICE + " - " +
-                    BookContract.ProductEntry.COLUMN_QUANTITY + " - " +
-                    BookContract.ProductEntry.COLUMN_PRODUCT_NAME + " - " +
-                    BookContract.ProductEntry.COLUMN_SUPPLIER_NAME + " - " +
-                    BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER + "\n");
-
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(BookContract.ProductEntry._ID);
-            int priceColumnIndex = cursor.getColumnIndex(BookContract.ProductEntry.COLUMN_PRICE);
-            int p_nameColumnIndex = cursor.getColumnIndex(BookContract.ProductEntry.COLUMN_PRODUCT_NAME);
-            int amtColumnIndex = cursor.getColumnIndex(BookContract.ProductEntry.COLUMN_QUANTITY);
-            int s_nameColumnIndex = cursor.getColumnIndex(BookContract.ProductEntry.COLUMN_SUPPLIER_NAME);
-            int s_phoneColumnIndex = cursor.getColumnIndex(BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
-
-            // Iterate through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentPrice = cursor.getString(priceColumnIndex);
-                String currentAmt = cursor.getString(amtColumnIndex);
-                int currentSupName = cursor.getInt(s_nameColumnIndex);
-                int currentSupPhoneNum = cursor.getInt(s_phoneColumnIndex);
-                int currentProdName = cursor.getInt(p_nameColumnIndex);
-                // Display the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + " - " +
-                        currentAmt + " - " +
-                        currentPrice + " - " +
-                        currentProdName + " - " +
-                        currentSupName + " - " +
-                        currentSupPhoneNum));
-            }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
-        }
+        @Override
+        public void onItemClick (AdapterView < ? > adapterView, View view,int position, long id){
+        Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+        Uri selectedBookUri = ContentUris.withAppendedId(BookContract.ProductEntry.CONTENT_URI, id);
+        intent.setData(selectedBookUri);
+        startActivity(intent);
     }
+    });
 
+    getLoaderManager().initLoader(BOOK_LOADER,null,this);
+
+}
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
@@ -138,9 +135,30 @@ public class MainActivity extends AppCompatActivity {
         // there are no values).
         // The third argument is the ContentValues object containing the info for Toto.
 
-        long newRowId = db.insert(BookContract.ProductEntry.TABLE_NAME, null, values);
-
+//        long newRowId = db.insert(BookContract.ProductEntry.TABLE_NAME, null, values);
+        Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values );
     }
+//        try {
+//            Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+        /**
+         * Helper method to delete all book details data into the database.
+         */
+        private void deleteAll() {
+            int rowsDeleted =0;
+            rowsDeleted  = getContentResolver().delete(BookContract.ProductEntry.CONTENT_URI,null,null);
+            if(rowsDeleted > 0){
+                Toast.makeText(MainActivity.this,getString(R.string.delete_success),
+                        Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(MainActivity.this,getString(R.string.books_delete_failed),
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        }
 
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
@@ -157,10 +175,17 @@ public class MainActivity extends AppCompatActivity {
                 // Respond to a click on the "Insert dummy data" menu option
                 case R.id.action_insert_dummy_data:
                     insertBook();
-                    displayDatabaseInfo();
                     return true;
+                // Respond to a click on the "Delete All data" menu option
+                case R.id.action_delete_all_entries:
+                    deleteAll();
+                    return true;
+                // Respond to a click on the "Save" menu option
+//                case R.id.action_add:
+//                    Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+//                    startActivity(intent);
+//                    return true;
             }
             return super.onOptionsItemSelected(item);
         }
-
     }
