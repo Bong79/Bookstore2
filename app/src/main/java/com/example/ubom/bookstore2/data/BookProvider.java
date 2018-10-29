@@ -1,15 +1,15 @@
-package com.example.ubom.bookstore2;
+package com.example.ubom.bookstore2.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
-import android.database.Cursor;
 
-import com.example.ubom.bookstore2.BookContract.ProductEntry;
+import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
 
 
 /**

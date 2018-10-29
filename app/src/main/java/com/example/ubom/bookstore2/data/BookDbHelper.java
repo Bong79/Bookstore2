@@ -1,10 +1,10 @@
-package com.example.ubom.bookstore2;
+package com.example.ubom.bookstore2.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.ubom.bookstore2.BookContract.ProductEntry;
+import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
 
 
 /**

@@ -23,7 +23,7 @@
         </activity>
 
         <provider
-            android:name=".BookProvider"
+            android:name=".data.BookProvider"
             android:authorities="com.example.android.books"
             android:exported="false" />
 

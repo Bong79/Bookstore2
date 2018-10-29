@@ -17,7 +17,8 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ubom.bookstore2.BookContract.ProductEntry;
+import com.example.ubom.bookstore2.data.BookContract;
+import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
 
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view

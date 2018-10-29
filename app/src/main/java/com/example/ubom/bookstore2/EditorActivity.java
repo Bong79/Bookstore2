@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ubom.bookstore2.BookContract.ProductEntry;
+import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
 
 /**
  * Allows user to create a new book or edit an existing one.
