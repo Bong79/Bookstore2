@@ -73,7 +73,10 @@ public class MainActivity extends AppCompatActivity
             BookContract.ProductEntry._ID,
             BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
             BookContract.ProductEntry.COLUMN_PRICE,
-            BookContract.ProductEntry.COLUMN_QUANTITY };
+            BookContract.ProductEntry.COLUMN_AUTHOR,
+            BookContract.ProductEntry.COLUMN_QUANTITY,
+            BookContract.ProductEntry.COLUMN_SUPPLIER_NAME,
+            BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER };
 
     // Now create and return a CursorLoader that will take care of
     // creating a Cursor for the data being displayed.
