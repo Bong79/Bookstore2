@@ -82,10 +82,10 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
      * EditText field to enter the name of book's supplier's num
      */
     private EditText mSupplierPhoneNumberEditText;
-    /**
-     * EditText field to enter the name of book's author
-     */
-    private EditText mAuthor;
+//    /**
+//     * EditText field to enter the name of book's author
+//     */
+//    private EditText mAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,7 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mSupplierEditText = (EditText) findViewById(R.id.edit_supplier_name);
-        mAuthor = (EditText) findViewById(R.id.author);
+//        mAuthor = (EditText) findViewById(R.id.author);
         mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_supplier_phone_number);
     }
 
@@ -128,7 +128,7 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
     private void saveBook() {
         String nameString = mNameEditText.getText().toString().trim(); /**  .trim erase spaces**/
         String priceString = mPriceEditText.getText().toString().trim();
-        String author = mAuthor.getText().toString().trim();
+//        String author = mAuthor.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String supplierString = mSupplierEditText.getText().toString().trim();
         String phoneNumberOfSupplierString = mSupplierPhoneNumberEditText.getText().toString().trim();
@@ -137,7 +137,8 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         // and check if all the fields in the editor are blank
         if (currentBookUri == null &&
                 TextUtils.isEmpty(nameString)
-                && TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(author)
+                && TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString)
+//                TextUtils.isEmpty(author)
                 && TextUtils.isEmpty(supplierString)&& TextUtils.isEmpty(phoneNumberOfSupplierString))
         {            // Since no fields were modified, we can return early without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
@@ -174,7 +175,7 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         }
 
         values.put(ProductEntry.COLUMN_QUANTITY, quantity);
-        values.put(ProductEntry.COLUMN_AUTHOR, author);
+//        values.put(ProductEntry.COLUMN_AUTHOR, author);
         values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supplierString);
         values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneNumberOfSupplierString);
 

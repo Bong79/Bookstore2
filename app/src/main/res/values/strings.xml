@@ -42,4 +42,9 @@
     <string name="action_insert_dummy_data">Insert dummy data</string>
     <string name="action_add">Add action</string>
     <string name="author_hint">Author</string>
+    <string name="prod_name">Toto</string>
+    <string name="col_price">10</string>
+    <string name="col_quantity">10</string>
+    <string name="sup_name">Elegushi</string>
+    <string name="sup_phone">777 - 997 - 8414</string>
 </resources>

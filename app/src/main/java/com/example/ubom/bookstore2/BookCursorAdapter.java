@@ -26,6 +26,8 @@ import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
  * how to create list items for each row of book data in the {@link Cursor}.
  */
 public class BookCursorAdapter extends CursorAdapter {
+    public static final String LOG_TAG = BookCursorAdapter.class.getSimpleName();
+
     /**
      * Constructs a new {@link BookCursorAdapter}.
      *
@@ -63,21 +65,21 @@ public class BookCursorAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, final Cursor cursor) {
         // Find fields to populate in inflated template
         TextView name = (TextView) view.findViewById(R.id.name);
-        TextView author = (TextView) view.findViewById(R.id.author);
-        final TextView quantity = (TextView) view.findViewById(R.id.quantity);
+//        TextView author = (TextView) view.findViewById(R.id.author);
+        final TextView quantity = (TextView) view.findViewById(R.id.bookQuantity);
         TextView price = (TextView) view.findViewById(R.id.price);
         // Find sell button
         Button sell = view.findViewById(R.id.sellBkButton);
 
         // Find the columns of book attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
-        int authorColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_AUTHOR);
+//        int authorColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_AUTHOR);
         int quantityColumnIndex = cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_QUANTITY);
         int priceColumnIndex = cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_PRICE);
 
         // Read the book attributes from the Cursor for the current book
         String bookName = cursor.getString(nameColumnIndex);
-        String bookAuthor = cursor.getString(authorColumnIndex);
+//        String bookAuthor = cursor.getString(authorColumnIndex);
         String booksInStock = cursor.getString(quantityColumnIndex);
         final int bookQuantity = cursor.getInt(quantityColumnIndex);
         String priceOfTheBook = cursor.getString(priceColumnIndex);
@@ -110,7 +112,12 @@ public class BookCursorAdapter extends CursorAdapter {
         }
         // Update the TextViews with the attributes for the current book
         name.setText(bookName);
-        author.setText(bookAuthor);
+//        author.setText(bookAuthor);
+//        Log.d(LOG_TAG, "bindView() returned: " + quantity);
+
+//        Since it it on line 121 and it is the setText method
+//        that threw the exception on a null object (TextView), we should check to make sure that the TextView is
+//        initialized and that its id matches the layout file, and the proper layout is being used.
         quantity.setText(booksInStock);
         price.setText(priceOfTheBook);
     }

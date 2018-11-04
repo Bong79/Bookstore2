@@ -1,26 +1,4 @@
-//import android.content.ContentUris;
-//import android.content.ContentValues;
-//import android.content.Intent;
-//import android.database.sqlite.SQLiteDatabase;
-//import android.net.Uri;
-//import android.os.Bundle;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.v7.app.AppCompatActivity;
-//import android.view.Menu;
-//import android.view.MenuItem;
-//import android.view.View;
-//import android.widget.AdapterView;
-//import android.widget.ListView;
-//import android.widget.Toast;
-//
-//import com.example.ubom.bookstore2.BookCursorAdapter;
-//import com.example.ubom.bookstore2.EditorActivity;
-//import com.example.ubom.bookstore2.R;
-//import com.example.ubom.bookstore2.data.BookContract;
-//import com.example.ubom.bookstore2.data.BookDbHelper;
-
-
-        package com.example.ubom.bookstore2;
+package com.example.ubom.bookstore2;
 
         import android.app.LoaderManager;
         import android.content.ContentUris;
@@ -73,10 +51,11 @@ public class MainActivity extends AppCompatActivity
             BookContract.ProductEntry._ID,
             BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
             BookContract.ProductEntry.COLUMN_PRICE,
-            BookContract.ProductEntry.COLUMN_AUTHOR,
-            BookContract.ProductEntry.COLUMN_QUANTITY,
-            BookContract.ProductEntry.COLUMN_SUPPLIER_NAME,
-            BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER };
+            BookContract.ProductEntry.COLUMN_QUANTITY };
+//            BookContract.ProductEntry.COLUMN_SUPPLIER_NAME,
+//            BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER };
+//            BookContract.ProductEntry.COLUMN_AUTHOR,
+
 
     // Now create and return a CursorLoader that will take care of
     // creating a Cursor for the data being displayed.
@@ -94,7 +73,7 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
 
     // Setup FAB to open EditorActivity
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -143,13 +122,13 @@ public class MainActivity extends AppCompatActivity
     // Create a ContentValues object where column names are the keys,
     // and Toto's book attributes are the values.
     ContentValues values = new ContentValues();
-    values.put(BookContract.ProductEntry.COLUMN_PRODUCT_NAME, "Toto");
-    values.put(BookContract.ProductEntry.COLUMN_PRICE, 1);
-    values.put(BookContract.ProductEntry.COLUMN_QUANTITY, 0);
-    values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_NAME, "Elegushi");
-    values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, "777 - 997 - 8414");
-    values.put(BookContract.ProductEntry.COLUMN_AUTHOR, "Ita");
-    // Insert a new row for Toto into the provider using the ContentResolver.
+    values.put(BookContract.ProductEntry.COLUMN_PRODUCT_NAME, getString(R.string.prod_name));
+    values.put(BookContract.ProductEntry.COLUMN_PRICE, getString(R.string.col_price));
+    values.put(BookContract.ProductEntry.COLUMN_QUANTITY, getString(R.string.col_quantity));
+    values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_NAME, getString(R.string.sup_name));
+    values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, getString(R.string.sup_phone));
+
+      // Insert a new row for Toto into the provider using the ContentResolver.
     // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
     // into the books database table.
     // Receive the new content URI that will allow us to access Toto's data in the future.
@@ -163,9 +142,9 @@ public class MainActivity extends AppCompatActivity
     // there are no values).
     // The third argument is the ContentValues object containing the info for Toto.
 
-        long newRowId = db.insert(BookContract.ProductEntry.TABLE_NAME, null, values);
+        long newRowId = db.insert(BookContract.ProductEntry.TABLE_NAME, null, values);}
 //    Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values );
-  }
+
 //        try {
 //            Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values);
 //        }catch (Exception e){

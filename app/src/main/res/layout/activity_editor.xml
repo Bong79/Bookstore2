@@ -45,12 +45,13 @@ tools:context=".EditorActivity">
                 android:hint="@string/hint_product_name"
                 android:inputType="textCapWords"
                 style="@style/EditorFieldStyle" />
-             <!-- Name field -->
-            <EditText
-                android:id="@+id/author"
-                android:hint="@string/author_hint"
-                android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
+
+            <!-- Name field -->
+            <!--<EditText-->
+                <!--android:id="@+id/author"-->
+                <!--android:hint="@string/author_hint"-->
+                <!--android:inputType="textCapWords"-->
+                <!--style="@style/EditorFieldStyle" />-->
 
          </LinearLayout>
     </LinearLayout>
