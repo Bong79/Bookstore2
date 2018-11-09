@@ -13,7 +13,9 @@
 <resources>
     <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
+    <!--<style name="_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+
+    <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
@@ -31,7 +33,7 @@
     </style>
 
     <!-- Style for an EditText field in the editor -->
-    <style name="EditorFieldStyle">
+    <style name="EditorStyle" parent="AppTheme">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>

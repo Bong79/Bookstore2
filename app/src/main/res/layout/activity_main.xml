@@ -52,12 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
             android:text="@string/empty_view_title_text"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="@color/colorPrimaryDark" />
-
+            />
         <!--Empty subtitle text; notin do u!-->
         <TextView
             android:id="@+id/empty_subtitle_text"
@@ -65,7 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/empty_title_text"
             android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-medium"
             android:paddingTop="8dp"
             android:text="@string/empty_view_subtitle_text"
             android:textAppearance="?android:textAppearanceLarge" />

@@ -7,7 +7,9 @@ package com.example.ubom.bookstore2;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,37 +20,88 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ubom.bookstore2.data.BookContract;
 import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
+
+//import android.database.data;
 
 /**
  * Allows user to create a new book or edit an existing one.
  */
-public abstract class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-//
-//    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//        mCursorAdapter.swapCursor(data);
-//    }
-//
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-//        // Define a projection that specifies which columns from the database
-//        // you will actually use after this query.
-//        String[] projection = {
-//                BookContract.ProductEntry._ID,
-//                BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
-//                BookContract.ProductEntry.COLUMN_PRICE,
-//                BookContract.ProductEntry.COLUMN_QUANTITY };
-//
-//        // Now create and return a CursorLoader that will take care of
-//        // creating a Cursor for the data being displayed.
-//        return new CursorLoader(this,
-//                BookContract.ProductEntry.CONTENT_URI,
-//                projection,
-//                null,
-//                null,
-//                null);
-//    }
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+// Bail early if the data is null or there is less than 1 row in the data
+//        (talk; aissur)
+        if (data == null || data.getCount() < 1) {
+            return;
+        }
+        // first move the data to it’s first item position.
+        // Even though it only has one item, it st  arts at position -1.
+        // Proceed with moving to the first row of the data and reading data from it
+        // (This should be the only row in the data)
+        if (data.moveToFirst()) {
+            //Then I’ll get the data out of the data by getting the index of each data item,
+            //and then using the indexes and the get methods to grab the actual integers and strings.
+            // Find the columns of book attributes that we're interested in
+            int nameColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
+            int priceColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_PRICE);
+            int quantityColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_QUANTITY);
+            int supplierColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_SUPPLIER_NAME);
+            int phoneColumnIndex = data.getColumnIndex(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+
+            // Extract out the value from the data for the given column index
+            String name = data.getString(nameColumnIndex);
+            int price = data.getInt(priceColumnIndex);
+            int quantity = data.getInt(quantityColumnIndex);
+            String supplier = data.getString(supplierColumnIndex);
+            String phone = data.getString(phoneColumnIndex);
+
+            // Update the views on the screen with the values from the database
+            mNameEditText.setText(name);
+            mPriceEditText.setText(Integer.toString(price));
+            mQuantityEditText.setText(Integer.toString(quantity));
+            mSupplierEditText.setText(supplier);
+            mSupplierPhoneNumberEditText.setText(phone);
+        }
+    }
+    BookCursorAdapter mdataAdapter;
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                ProductEntry._ID,
+                ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductEntry.COLUMN_PRICE,
+                ProductEntry.COLUMN_QUANTITY,
+                ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER,
+                ProductEntry.COLUMN_SUPPLIER_NAME
+
+        };
+
+        // Now create and return a dataLoader that will take care of
+        // creating a data for the data being displayed.
+        return new CursorLoader(this,
+                BookContract.ProductEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // If the loader is invalidated, clear out all the data from the input fields.
+        mNameEditText.setText("");
+        mPriceEditText.setText("");
+        mQuantityEditText.setText("");
+        mSupplierEditText.setText("");
+        mSupplierPhoneNumberEditText.setText("");
+    }
+
 
 
     // Identifies a particular Loader being used in this component
@@ -82,10 +135,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
      * EditText field to enter the name of book's supplier's num
      */
     private EditText mSupplierPhoneNumberEditText;
-//    /**
-//     * EditText field to enter the name of book's author
-//     */
-//    private EditText mAuthor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +167,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mSupplierEditText = (EditText) findViewById(R.id.edit_supplier_name);
-//        mAuthor = (EditText) findViewById(R.id.author);
         mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_supplier_phone_number);
     }
 
@@ -128,7 +176,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
     private void saveBook() {
         String nameString = mNameEditText.getText().toString().trim(); /**  .trim erase spaces**/
         String priceString = mPriceEditText.getText().toString().trim();
-//        String author = mAuthor.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String supplierString = mSupplierEditText.getText().toString().trim();
         String phoneNumberOfSupplierString = mSupplierPhoneNumberEditText.getText().toString().trim();
@@ -138,7 +185,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         if (currentBookUri == null &&
                 TextUtils.isEmpty(nameString)
                 && TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString)
-//                TextUtils.isEmpty(author)
                 && TextUtils.isEmpty(supplierString)&& TextUtils.isEmpty(phoneNumberOfSupplierString))
         {            // Since no fields were modified, we can return early without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
@@ -175,7 +221,6 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         }
 
         values.put(ProductEntry.COLUMN_QUANTITY, quantity);
-//        values.put(ProductEntry.COLUMN_AUTHOR, author);
         values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supplierString);
         values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneNumberOfSupplierString);
 
@@ -247,4 +292,61 @@ public abstract class EditorActivity extends AppCompatActivity implements Loader
         }
         return super.onOptionsItemSelected(item);
     }
+//    public void dialPhoneNumber(String phoneNumber) {
+//        Intent intent = new Intent(Intent.ACTION_DIAL);
+//        intent.setData(Uri.parse("tel:" + phoneNumber));
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
+//        }
+//    }
+//    //called when phone icon is pressed.
+//    Button callActionButton = (Button) findViewById(R.id.action_call);
+//        callActionButton.setOnClickListener(new OnClickListener() {
+//        public void onClick(View v) {
+//            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+//                    mSupplierPhoneNumberEditText.getText().toString(), null));
+//            startActivity(intent);
+//            finish();
+//        }
+//    });
+//
+//    //called when action_decrease button is clicked.
+//    Button decreaseBookQuantityButton = (Button) findViewById(R.id.action_decrease);
+//        decreaseBookQuantityButton.setOnClickListener(new OnClickListener() {
+//        public void onClick(View v) {
+//            int bookQuantity = 0;
+//            String bookQuantityString = mBookQuantityEditText.getText().toString();
+//            if(!TextUtils.isEmpty(bookQuantityString)) {
+//                bookQuantity  = Integer.parseInt(bookQuantityString);
+//                if(bookQuantity > 0) {
+//                    //update the flag to true, as the bookQuantity data is changed.
+//                    mBookHasChanged = true;
+//                    bookQuantity = bookQuantity - 1;
+//                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+//                }else{
+//                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+//                }
+//            }
+//        }
+//    });
+//
+//    //called when action_increase button is clicked.
+//    Button increaseBookQuantityButton = (Button) findViewById(R.id.action_increase);
+//        increaseBookQuantityButton.setOnClickListener(new OnClickListener() {
+//        public void onClick(View v) {
+//            //update the flag to true, as the bookQuantity data is changed.
+//            mBookHasChanged = true;
+//            int bookQuantity = 0;
+//            String bookQuantityString = mBookQuantityEditText.getText().toString();
+//            if(!TextUtils.isEmpty(bookQuantityString)) {
+//                bookQuantity  = Integer.parseInt(bookQuantityString);
+//                bookQuantity = bookQuantity + 1;
+//                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+//            } else if(currentBookUri == null){
+//                bookQuantity = bookQuantity + 1;
+//                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+//            }
+//        }
+//    });
 }
+

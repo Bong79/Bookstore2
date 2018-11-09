@@ -1,26 +1,26 @@
 package com.example.ubom.bookstore2;
 
-        import android.app.LoaderManager;
-        import android.content.ContentUris;
-        import android.content.ContentValues;
-        import android.content.CursorLoader;
-        import android.content.Intent;
-        import android.content.Loader;
-        import android.database.Cursor;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.support.design.widget.FloatingActionButton;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ListView;
-        import android.widget.Toast;
+import android.app.LoaderManager;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-        import com.example.ubom.bookstore2.data.BookContract;
-        import com.example.ubom.bookstore2.data.BookDbHelper;
+import com.example.ubom.bookstore2.data.BookContract;
+import com.example.ubom.bookstore2.data.BookDbHelper;
 
 
 public class MainActivity extends AppCompatActivity
@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity
             BookContract.ProductEntry.COLUMN_PRODUCT_NAME,
             BookContract.ProductEntry.COLUMN_PRICE,
             BookContract.ProductEntry.COLUMN_QUANTITY };
-//            BookContract.ProductEntry.COLUMN_SUPPLIER_NAME,
-//            BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER };
-//            BookContract.ProductEntry.COLUMN_AUTHOR,
 
 
     // Now create and return a CursorLoader that will take care of

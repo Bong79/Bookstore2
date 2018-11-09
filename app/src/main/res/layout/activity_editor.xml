@@ -44,15 +44,7 @@ tools:context=".EditorActivity">
                 android:id="@+id/edit_product_name"
                 android:hint="@string/hint_product_name"
                 android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
-
-            <!-- Name field -->
-            <!--<EditText-->
-                <!--android:id="@+id/author"-->
-                <!--android:hint="@string/author_hint"-->
-                <!--android:inputType="textCapWords"-->
-                <!--style="@style/EditorFieldStyle" />-->
-
+                style="@style/EditorStyle" />
          </LinearLayout>
     </LinearLayout>
 
@@ -81,47 +73,65 @@ tools:context=".EditorActivity">
             android:id="@+id/edit_book_price"
             android:hint="@string/hint_book_price"
             android:inputType="number"
-            style="@style/EditorFieldStyle" />
+            style="@style/EditorStyle" />
 
     </RelativeLayout>
 </LinearLayout>
 
 <!-- Quantity category -->
-<LinearLayout
-    android:id="@+id/quantity"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <!-- Label -->
-    <TextView
-        android:text="@string/quantity"
-        style="@style/CategoryStyle" />
-
-    <!-- Input fields -->
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:paddingLeft="4dp">
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:layout_width="115dp"
+            android:layout_height="34dp"
+            android:text="@string/quantity" />
+
+        <!-- Input fields -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="4dp">
 
         <!-- Quantity field -->
         <EditText
             android:id="@+id/edit_quantity"
+            style="@style/EditorStyle"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:hint="@string/hint_quantity"
-            android:inputType="number"
-            style="@style/EditorFieldStyle" />
+            android:inputType="number" />
+            <!--android:layout_weight=".5"-->
 
-        <!--  how many books in stock -->
-        <TextView
-            android:layout_height="wrap_content"
+
+        <Button
+            android:id="@+id/action_increase"
             android:layout_width="wrap_content"
-            android:id="@+id/label_books"
-            android:text="@string/how_many_books_in_stock"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:onClick=""
+            android:text="+"
+
             />
+
+        <Button
+            android:id="@+id/action_decrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:onClick=""
+            android:text="-" />
+
     </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
 
 <!-- Supplier category -->
     <LinearLayout
@@ -147,14 +157,21 @@ tools:context=".EditorActivity">
                 android:id="@+id/edit_supplier_name"
                 android:hint="@string/hint_supplier"
                 android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
+                style="@style/EditorStyle" />
 
             <!-- Ph. # field -->
             <EditText
                 android:id="@+id/edit_supplier_phone_number"
                 android:hint="@string/hint_supplier_phone_number"
                 android:inputType="textCapWords"
-                style="@style/EditorFieldStyle" />
+                style="@style/EditorStyle" />
+
+            <ImageView
+                android:id="@+id/action_call"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:onClick=""
+                android:src="@drawable/phone" />
         </LinearLayout>
     </LinearLayout>
 

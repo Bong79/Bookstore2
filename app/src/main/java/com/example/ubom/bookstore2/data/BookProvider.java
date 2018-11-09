@@ -117,45 +117,38 @@ import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
          */
         private Uri insertBook(Uri uri, ContentValues values) {
 
-//            /** Sanity checking.**/
-//            // Check that the name of the book is not null
-//            String p_name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-//            if (p_name == null) {
-//                throw new IllegalArgumentException("Book requires a name");
-//            }
-//
-//            /** Sanity checking.**/
-//            // Check that the author of the book is not null
-//            String author = values.getAsString(ProductEntry.COLUMN_AUTHOR);
-//            if (author == null) {
-//                throw new IllegalArgumentException("Book requires an author");
-//            }
-//
-//            /** Sanity checking.**/
-//            // If the price is provided, check that it's greater than or equal to $0
-//            // If the price is null, that’s fine
-//            Integer price = values.getAsInteger(ProductEntry.COLUMN_PRICE);
-//            if (price != null && price < 0) {
-//                throw new IllegalArgumentException("Book requires valid price");
-//            }
-//            /** Sanity checking.**/
-//            // check that quantity is not null and that it is greater than or equal to 0 books.
-//            Integer amt = values.getAsInteger(ProductEntry.COLUMN_QUANTITY);
-//            if (amt == null || amt < 0) {
-//                throw new IllegalArgumentException("Book requires valid quantity");
-//            }
-//            /** Sanity checking.**/
-//            // Check that the supplier's name is not null.
-//            String s_name = values.getAsString(ProductEntry.COLUMN_SUPPLIER_NAME);
-//            if (s_name == null) {
-//                throw new IllegalArgumentException("Book requires a supplier's name");
-//            }
-//            /** Sanity checking.**/
-//            // Check that the supplier's phone is not null.
-//            Integer s_phone = values.getAsInteger(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
-//            if (s_phone == null) {
-//                throw new IllegalArgumentException("Book requires a supplier's ph. number");
-//            }
+            /** Sanity checking.**/
+            // Check that the name of the book is not null
+            String p_name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
+            if (p_name == null) {
+                throw new IllegalArgumentException("Book requires a name");
+            }
+
+            /** Sanity checking.**/
+            // If the price is provided, check that it's greater than or equal to $0
+            // If the price is null, that’s fine
+            Integer price = values.getAsInteger(ProductEntry.COLUMN_PRICE);
+            if (price != null && price < 0) {
+                throw new IllegalArgumentException("Book requires valid price");
+            }
+            /** Sanity checking.**/
+            // check that quantity is not null and that it is greater than or equal to 0 books.
+            Integer amt = values.getAsInteger(ProductEntry.COLUMN_QUANTITY);
+            if (amt == null || amt < 0) {
+                throw new IllegalArgumentException("Book requires valid quantity");
+            }
+            /** Sanity checking.**/
+            // Check that the supplier's name is not null.
+            String s_name = values.getAsString(ProductEntry.COLUMN_SUPPLIER_NAME);
+            if (s_name == null) {
+                throw new IllegalArgumentException("Book requires a supplier's name");
+            }
+            /** Sanity checking.**/
+            // Check that the supplier's phone is not null.
+            Integer s_phone = values.getAsInteger(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+            if (s_phone == null) {
+                throw new IllegalArgumentException("Book requires a supplier's ph. number");
+            }
 
 
             // Get writeable database
@@ -192,6 +185,9 @@ import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
                     throw new IllegalArgumentException("Update is not supported for " + uri);
             }
         }
+
+
+
 
         /**
          * Update books in the database with the given content values. Apply the changes to the rows
