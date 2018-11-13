@@ -48,4 +48,12 @@
     <string name="sup_phone">7779978414</string>
     <string name="deButton2">-</string>
     <string name="inButton1">+</string>
+    <string name="action_delete">Delete?</string>
+    <string name="unsaved_changes_dialog_msg">Any unsaved changes?</string>
+    <string name="discard">Troway?</string>
+    <string name="keep_editing">Keep on?</string>
+    <string name="delete_dialog_msg">Abi you wan delete?</string>
+    <string name="delete">Delete?</string>
+    <string name="editor_delete_book_failed">Deletion failed!</string>
+    <string name="editor_delete_book_successful">Deletion a success.</string>
 </resources>

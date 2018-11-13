@@ -5,9 +5,11 @@ package com.example.ubom.bookstore2;
  * Created by ubom on 9/21/18.
  */
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -15,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +27,6 @@ import android.widget.Toast;
 
 import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
 
-//import android.database.data;
 
 /**
  * Allows user to create a new book or edit an existing one.
@@ -33,7 +35,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    // waka comot (Bail) if the data is null or there is less than 1 row in the data
+        // waka comot (Bail) if the data is null or there is less than 1 row in the data
         if (data == null || data.getCount() < 1) {
             return;
         }
@@ -145,56 +147,54 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_editor);
 
 //        called when phone icon is pressed.
-    Button callActionButton = (Button) findViewById(R.id.action_call);
+        Button callActionButton = (Button) findViewById(R.id.action_call);
         callActionButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick (View v)
-        {
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
-                    mSupplierPhoneNumberEditText.getText().toString(), null));
-            startActivity(intent);
-            finish();
-        }
-    });
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+                        mSupplierPhoneNumberEditText.getText().toString(), null));
+                startActivity(intent);
+                finish();
+            }
+        });
 
-    //called when decrease button is clicked.
-    Button decreaseBookQuantityButton = (Button) findViewById(R.id.action_decrease);
+        //called when decrease button is clicked.
+        Button decreaseBookQuantityButton = (Button) findViewById(R.id.action_decrease);
         decreaseBookQuantityButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v)
-        {
-            int bookQuantity = 0;
-            String bookQuantityString = mQuantityEditText.getText().toString();
-            if(!TextUtils.isEmpty(bookQuantityString)) {
-                bookQuantity  = Integer.parseInt(bookQuantityString);
-                if(bookQuantity > 0) {
-                    //update the flag to true, as the bookQuantity data is changed.
-                    mBookHasChanged = true;
-                    bookQuantity = bookQuantity - 1;
+            public void onClick(View v) {
+                int bookQuantity = 0;
+                String bookQuantityString = mQuantityEditText.getText().toString();
+                if (!TextUtils.isEmpty(bookQuantityString)) {
+                    bookQuantity = Integer.parseInt(bookQuantityString);
+                    if (bookQuantity > 0) {
+                        //update the flag to true, as the bookQuantity data is changed.
+                        mBookHasChanged = true;
+                        bookQuantity = bookQuantity - 1;
+                        mQuantityEditText.setText(Integer.toString(bookQuantity));
+                    } else {
+                        mQuantityEditText.setText(Integer.toString(bookQuantity));
+                    }
+                }
+            }
+        });
+
+        //called when increase button is clicked.
+        Button increaseBookQuantityButton = (Button) findViewById(R.id.action_increase);
+        increaseBookQuantityButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //update the flag to true, as the bookQuantity data is changed.
+                mBookHasChanged = true;
+                int bookQuantity = 0;
+                String bookQuantityString = mQuantityEditText.getText().toString();
+                if (!TextUtils.isEmpty(bookQuantityString)) {
+                    bookQuantity = Integer.parseInt(bookQuantityString);
+                    bookQuantity = bookQuantity + 1;
                     mQuantityEditText.setText(Integer.toString(bookQuantity));
-                }else{
+                } else if (currentBookUri == null) {
+                    bookQuantity = bookQuantity + 1;
                     mQuantityEditText.setText(Integer.toString(bookQuantity));
                 }
             }
-        }
-    });
-
-    //called when increase button is clicked.
-    Button increaseBookQuantityButton = (Button) findViewById(R.id.action_increase);
-        increaseBookQuantityButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-            //update the flag to true, as the bookQuantity data is changed.
-            mBookHasChanged = true;
-            int bookQuantity = 0;
-            String bookQuantityString = mQuantityEditText.getText().toString();
-            if(!TextUtils.isEmpty(bookQuantityString)) {
-                bookQuantity  = Integer.parseInt(bookQuantityString);
-                bookQuantity = bookQuantity + 1;
-                mQuantityEditText.setText(Integer.toString(bookQuantity));
-            } else if(currentBookUri == null){
-                bookQuantity = bookQuantity + 1;
-                mQuantityEditText.setText(Integer.toString(bookQuantity));
-            }
-        }
-    });
+        });
 
 
         // examine the intent that was used to launch this activity,
@@ -226,6 +226,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierPhoneNumberEditText = (EditText) findViewById(R.id.edit_supplier_phone_number);
     }
 
+    private void showUnsavedChangesDialog(
+            DialogInterface.OnClickListener discardButtonClickListener) {
+
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the book.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    //only display the delete option when editing an item
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (currentBookUri == null) {
+            MenuItem item = menu.findItem(R.id.action_delete);
+            item.setVisible(false);
+        }
+        return true;
+    }
+
+
     /**
      * get user input and save new book into database
      **/
@@ -236,14 +271,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierString = mSupplierEditText.getText().toString().trim();
         String phoneNumberOfSupplierString = mSupplierPhoneNumberEditText.getText().toString().trim();
 
-            if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(quantityString) ||
-                    TextUtils.isEmpty(priceString) ||TextUtils.isEmpty(supplierString) ||
-                    TextUtils.isEmpty(phoneNumberOfSupplierString) ){
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(quantityString) ||
+                TextUtils.isEmpty(priceString) || TextUtils.isEmpty(supplierString) ||
+                TextUtils.isEmpty(phoneNumberOfSupplierString)) {
 
-                Toast.makeText(this, "Please fill the required fields",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
+            Toast.makeText(this, "Please fill the required fields",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         ContentValues values = new ContentValues();
 
@@ -265,6 +300,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             quantity = Integer.parseInt(quantityString);/**we want to store an integer, not a String.
              parseInt method convert the String into an Integer**/
         }
+
 
         values.put(ProductEntry.COLUMN_QUANTITY, quantity);
         values.put(ProductEntry.COLUMN_SUPPLIER_NAME, supplierString);
@@ -314,7 +350,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
 
             }
-        }       finish();
+        }
+        finish();
     }
 
     @Override
@@ -336,9 +373,63 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 //Exit activity and return to the CatalogActivity
 
                 return true;
+            // Respond to a click on the "Delete" menu option
+            case R.id.action_delete:
+                // Open the dialog to confirm deletion of book
+                showDeleteConfirmationDialog();
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-}
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the book.
+                deleteBook();
+            }
 
+        });
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    /**
+     * Perform the deletion of the book in the database.
+     */
+    private void deleteBook() {
+        // Only perform the delete if this is an existing book.
+        if (currentBookUri != null) {
+            // Call the ContentResolver to delete the book at the given content URI.
+            // Pass in null for the selection and selection args because the currentBookUri
+            // content URI already identifies the book that we want.
+            // The delete method, like update, returns the number of rows deleted.
+            int rowsDeleted;
+            rowsDeleted = getContentResolver().delete(currentBookUri, null, null);
+            Log.v("DeleteBook", String.valueOf(rowsDeleted));
+
+
+            // Show a toast message depending on whether or not the delete was successful.
+            if (rowsDeleted == 0) {
+                Log.v("DeleteBook", rowsDeleted + " rows deleted from book database");
+
+                // If no rows were deleted, then there was an error with the delete.
+                Toast.makeText(this, getString(R.string.editor_delete_book_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the delete was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.editor_delete_book_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+            finish();
+        }
+
+    }
+}

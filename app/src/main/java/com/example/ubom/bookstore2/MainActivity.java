@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity
     // and Toto's book attributes are the values.
     ContentValues values = new ContentValues();
     values.put(BookContract.ProductEntry.COLUMN_PRODUCT_NAME, getString(R.string.prod_name));
-    values.put(BookContract.ProductEntry.COLUMN_PRICE, getString(R.string.col_price));
-    values.put(BookContract.ProductEntry.COLUMN_QUANTITY, getString(R.string.col_quantity));
+    values.put(BookContract.ProductEntry.COLUMN_PRICE, "$10");
+    values.put(BookContract.ProductEntry.COLUMN_QUANTITY, "10");
     values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_NAME, getString(R.string.sup_name));
     values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, getString(R.string.sup_phone));
 
