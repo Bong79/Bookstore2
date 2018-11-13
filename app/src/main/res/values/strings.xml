@@ -46,4 +46,6 @@
     <string name="col_quantity">10</string>
     <string name="sup_name">Elegushi</string>
     <string name="sup_phone">7779978414</string>
+    <string name="deButton2">-</string>
+    <string name="inButton1">+</string>
 </resources>

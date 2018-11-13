@@ -69,6 +69,35 @@ public class MainActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+     /*
+            * These methods are called when the add and subtract button is clicked.
+            */
+
+//    public void increment(View view) {
+//      if (edit_quantity == 100) {
+//        //show error message as toast
+//        Toast.makeText(this, R.string.toast1, Toast.LENGTH_SHORT).show();
+//        //exit this method early, nothing to do
+//        return;
+//      }
+//
+//      quantity = quantity + 1;
+//      displayQuantity(quantity);
+//    };
+//
+//    public void decrement(View view) {
+//      if (quantity == 1) {
+//        //show error message as toast
+//        Toast.makeText(this, R.string.toast2, Toast.LENGTH_SHORT).show();
+//        //exit this method early, nothing to do
+//        return;
+//      }
+//
+//      quantity = quantity - 1;
+//      displayQuantity(quantity);
+//    };
+//
+
     // Setup FAB to open EditorActivity
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
     fab.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +154,7 @@ public class MainActivity extends AppCompatActivity
     values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_NAME, getString(R.string.sup_name));
     values.put(BookContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, getString(R.string.sup_phone));
 
-      // Insert a new row for Toto into the provider using the ContentResolver.
+    // Insert a new row for Toto into the provider using the ContentResolver.
     // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
     // into the books database table.
     // Receive the new content URI that will allow us to access Toto's data in the future.
@@ -139,15 +168,8 @@ public class MainActivity extends AppCompatActivity
     // there are no values).
     // The third argument is the ContentValues object containing the info for Toto.
 
-        long newRowId = db.insert(BookContract.ProductEntry.TABLE_NAME, null, values);}
-//    Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values );
-
-//        try {
-//            Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
+    Uri newUri = getContentResolver().insert(BookContract.ProductEntry.CONTENT_URI, values);
+    }
   /**
    * Helper method to delete all book details data into the database.
    */

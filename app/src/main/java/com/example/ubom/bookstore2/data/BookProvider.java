@@ -145,11 +145,10 @@ import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
             }
             /** Sanity checking.**/
             // Check that the supplier's phone is not null.
-            Integer s_phone = values.getAsInteger(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+            String s_phone = values.getAsString(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
             if (s_phone == null) {
                 throw new IllegalArgumentException("Book requires a supplier's ph. number");
             }
-
 
             // Get writeable database
             SQLiteDatabase database = bookDbHelper.getWritableDatabase();
@@ -228,7 +227,9 @@ import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
             // Otherwise, get writeable database to update the data
             SQLiteDatabase database =  bookDbHelper.getWritableDatabase();
             // Returns the number of database rows affected by the update statement
-            rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
+
+//            rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
+
             // Perform the update on the database and get the number of rows affected
             rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
             // If 1 or more rows were updated, then notify all listeners that the data at the

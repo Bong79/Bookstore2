@@ -17,10 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ubom.bookstore2.data.BookContract;
 import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
 
 //import android.database.data;
@@ -32,8 +33,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-// Bail early if the data is null or there is less than 1 row in the data
-//        (talk; aissur)
+    // Bail early if the data is null or there is less than 1 row in the data
+    //        (talk; aissur)
         if (data == null || data.getCount() < 1) {
             return;
         }
@@ -66,6 +67,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mSupplierPhoneNumberEditText.setText(phone);
         }
     }
+
     BookCursorAdapter mdataAdapter;
 
 
@@ -86,12 +88,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Now create and return a dataLoader that will take care of
         // creating a data for the data being displayed.
         return new CursorLoader(this,
-                BookContract.ProductEntry.CONTENT_URI,
+                currentBookUri,
                 projection,
                 null,
                 null,
                 null);
     }
+
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
@@ -101,7 +104,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierEditText.setText("");
         mSupplierPhoneNumberEditText.setText("");
     }
-
 
 
     // Identifies a particular Loader being used in this component
@@ -140,6 +142,65 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+//            public void dialPhoneNumber(String phoneNumber) {
+//        Intent intent = new Intent(Intent.ACTION_DIAL);
+//        intent.setData(Uri.parse("tel:" + phoneNumber));
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
+//        }
+//    }
+
+//        called when phone icon is pressed.
+    Button callActionButton = (Button) findViewById(R.id.action_call);
+        callActionButton.setOnClickListener(new OnClickListener() {
+        public void onClick (View v){
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+                    mSupplierPhoneNumberEditText.getText().toString(), null));
+            startActivity(intent);
+            finish();
+        }
+    });
+
+    //called when decrease button is clicked.
+    Button decreaseBookQuantityButton = (Button) findViewById(R.id.action_decrease);
+        decreaseBookQuantityButton.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            int bookQuantity = 0;
+            String bookQuantityString = mBookQuantityEditText.getText().toString();
+            if(!TextUtils.isEmpty(bookQuantityString)) {
+                bookQuantity  = Integer.parseInt(bookQuantityString);
+                if(bookQuantity > 0) {
+                    //update the flag to true, as the bookQuantity data is changed.
+                    mBookHasChanged = true;
+                    bookQuantity = bookQuantity - 1;
+                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+                }else{
+                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+                }
+            }
+        }
+    });
+
+    //called when increase button is clicked.
+    Button increaseBookQuantityButton = (Button) findViewById(R.id.action_increase);
+        increaseBookQuantityButton.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            //update the flag to true, as the bookQuantity data is changed.
+            mBookHasChanged = true;
+            int bookQuantity = 0;
+            String bookQuantityString = mBookQuantityEditText.getText().toString();
+            if(!TextUtils.isEmpty(bookQuantityString)) {
+                bookQuantity  = Integer.parseInt(bookQuantityString);
+                bookQuantity = bookQuantity + 1;
+                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+            } else if(currentBookUri == null){
+                bookQuantity = bookQuantity + 1;
+                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+            }
+        }
+    });
+
 
         // examine the intent that was used to launch this activity,
         // in order to figure out if we're creating a new book or editing the existing book
@@ -180,24 +241,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierString = mSupplierEditText.getText().toString().trim();
         String phoneNumberOfSupplierString = mSupplierPhoneNumberEditText.getText().toString().trim();
 
-        // Check if this is supposed to be a new book
-        // and check if all the fields in the editor are blank
-        if (currentBookUri == null &&
-                TextUtils.isEmpty(nameString)
-                && TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString)
-                && TextUtils.isEmpty(supplierString)&& TextUtils.isEmpty(phoneNumberOfSupplierString))
-        {            // Since no fields were modified, we can return early without creating a new book.
-            // No need to create ContentValues and no need to do any ContentProvider operations.
-            return;
-        }
+            if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(quantityString) ||
+                    TextUtils.isEmpty(priceString) ||TextUtils.isEmpty(supplierString) ||
+                    TextUtils.isEmpty(phoneNumberOfSupplierString) ){
 
-        if (currentBookUri == null){
-            if (TextUtils.isEmpty(nameString)
-                    || TextUtils.isEmpty(quantityString)){
                 Toast.makeText(this, "Please fill the required fields",
                         Toast.LENGTH_SHORT).show();
+                return;
             }
-        }
 
         ContentValues values = new ContentValues();
 
@@ -266,8 +317,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 // Otherwise, the update was successful and we can display a toast.
                 Toast.makeText(this, getString(R.string.editor_update_book_successful),
                         Toast.LENGTH_SHORT).show();
+
             }
-        }
+        }       finish();
     }
 
     @Override
@@ -287,66 +339,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 //set book to database
                 saveBook();
                 //Exit activity and return to the CatalogActivity
-                finish();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-//    public void dialPhoneNumber(String phoneNumber) {
-//        Intent intent = new Intent(Intent.ACTION_DIAL);
-//        intent.setData(Uri.parse("tel:" + phoneNumber));
-//        if (intent.resolveActivity(getPackageManager()) != null) {
-//            startActivity(intent);
-//        }
-//    }
-//    //called when phone icon is pressed.
-//    Button callActionButton = (Button) findViewById(R.id.action_call);
-//        callActionButton.setOnClickListener(new OnClickListener() {
-//        public void onClick(View v) {
-//            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
-//                    mSupplierPhoneNumberEditText.getText().toString(), null));
-//            startActivity(intent);
-//            finish();
-//        }
-//    });
-//
-//    //called when action_decrease button is clicked.
-//    Button decreaseBookQuantityButton = (Button) findViewById(R.id.action_decrease);
-//        decreaseBookQuantityButton.setOnClickListener(new OnClickListener() {
-//        public void onClick(View v) {
-//            int bookQuantity = 0;
-//            String bookQuantityString = mBookQuantityEditText.getText().toString();
-//            if(!TextUtils.isEmpty(bookQuantityString)) {
-//                bookQuantity  = Integer.parseInt(bookQuantityString);
-//                if(bookQuantity > 0) {
-//                    //update the flag to true, as the bookQuantity data is changed.
-//                    mBookHasChanged = true;
-//                    bookQuantity = bookQuantity - 1;
-//                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
-//                }else{
-//                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
-//                }
-//            }
-//        }
-//    });
-//
-//    //called when action_increase button is clicked.
-//    Button increaseBookQuantityButton = (Button) findViewById(R.id.action_increase);
-//        increaseBookQuantityButton.setOnClickListener(new OnClickListener() {
-//        public void onClick(View v) {
-//            //update the flag to true, as the bookQuantity data is changed.
-//            mBookHasChanged = true;
-//            int bookQuantity = 0;
-//            String bookQuantityString = mBookQuantityEditText.getText().toString();
-//            if(!TextUtils.isEmpty(bookQuantityString)) {
-//                bookQuantity  = Integer.parseInt(bookQuantityString);
-//                bookQuantity = bookQuantity + 1;
-//                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
-//            } else if(currentBookUri == null){
-//                bookQuantity = bookQuantity + 1;
-//                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
-//            }
-//        }
-//    });
+
 }
 

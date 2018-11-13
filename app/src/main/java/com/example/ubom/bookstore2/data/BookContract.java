@@ -69,12 +69,6 @@ public final class BookContract {
          * Type: TEXT
          */
         public final static String COLUMN_PRODUCT_NAME = "p_name";
-//        /**
-//         * Name of the author.
-//         *
-//         * Type: TEXT
-//         */
-//        public final static String COLUMN_AUTHOR = "author";
 
         /**
          * Quantity of book

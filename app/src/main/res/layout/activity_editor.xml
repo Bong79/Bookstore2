@@ -42,9 +42,9 @@ tools:context=".EditorActivity">
             <!-- Name field -->
             <EditText
                 android:id="@+id/edit_product_name"
+                style="@style/EditorStyle"
                 android:hint="@string/hint_product_name"
-                android:inputType="textCapWords"
-                style="@style/EditorStyle" />
+                android:inputType="textCapWords" />
          </LinearLayout>
     </LinearLayout>
 
@@ -78,60 +78,6 @@ tools:context=".EditorActivity">
     </RelativeLayout>
 </LinearLayout>
 
-<!-- Quantity category -->
-    <LinearLayout
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            style="@style/CategoryStyle"
-            android:layout_width="115dp"
-            android:layout_height="34dp"
-            android:text="@string/quantity" />
-
-        <!-- Input fields -->
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="4dp">
-
-        <!-- Quantity field -->
-        <EditText
-            android:id="@+id/edit_quantity"
-            style="@style/EditorStyle"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:hint="@string/hint_quantity"
-            android:inputType="number" />
-            <!--android:layout_weight=".5"-->
-
-
-        <Button
-            android:id="@+id/action_increase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:onClick=""
-            android:text="+"
-
-            />
-
-        <Button
-            android:id="@+id/action_decrease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:onClick=""
-            android:text="-" />
-
-    </RelativeLayout>
-
-    </LinearLayout>
 
 <!-- Supplier category -->
     <LinearLayout
@@ -170,9 +116,107 @@ tools:context=".EditorActivity">
                 android:id="@+id/action_call"
                 android:layout_width="wrap_content"
                 android:layout_height="47dp"
-                android:onClick=""
                 android:src="@drawable/phone" />
         </LinearLayout>
     </LinearLayout>
+    <!-- Quantity category -->
+    <LinearLayout
+        android:id="@+id/quantity"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:layout_width="15dp"
+            android:layout_height="34dp"
+            android:text="@string/quantity" />
+
+        <!-- Input fields -->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:paddingLeft="4dp"-->
+            <!--&gt;-->
+
+            <!--&lt;!&ndash; Quantity field &ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight=".5"&ndash;&gt;-->
+
+
+
+        <!--</RelativeLayout>-->
+
+    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<Button-->
+            <!--android:id="@+id/action_increase"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@+id/edit_quantity"-->
+            <!--android:layout_alignParentLeft="true"-->
+
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:gravity="left"-->
+            <!--android:text="+" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/action_decrease"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@+id/edit_quantity"-->
+            <!--android:layout_alignEnd="@+id/action_increase"-->
+            <!--android:layout_alignRight="@+id/action_increase"-->
+            <!--android:layout_marginBottom="9dp"-->
+            <!--android:layout_marginEnd="39dp"-->
+            <!--android:layout_marginRight="39dp"-->
+            <!--android:gravity="left"-->
+            <!--android:text="-" />-->
+
+
+    <!--</LinearLayout>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="@string/deButton2"
+            android:background="#d2691E"
+            />
+        <EditText
+            android:id="@+id/edit_quantity"
+            android:text="0"
+            style="@style/EditorStyle"
+            android:layout_width="wrap_content"
+            android:hint="@string/hint_quantity"
+            android:inputType="number" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/quantity_text_view"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingLeft="8dp"-->
+            <!--android:paddingRight="8dp"-->
+            <!--android:text="@string/quantity1"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:fontFamily="casual"-->
+            <!--android:textSize="16sp" />-->
+
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="@string/inButton1"
+            android:background="#d2691E" />
+
+    </LinearLayout>
+
 
 </LinearLayout>
