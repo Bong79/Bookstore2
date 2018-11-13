@@ -228,8 +228,6 @@ import com.example.ubom.bookstore2.data.BookContract.ProductEntry;
             SQLiteDatabase database =  bookDbHelper.getWritableDatabase();
             // Returns the number of database rows affected by the update statement
 
-//            rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
-
             // Perform the update on the database and get the number of rows affected
             rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
             // If 1 or more rows were updated, then notify all listeners that the data at the

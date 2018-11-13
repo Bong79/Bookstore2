@@ -33,8 +33,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    // Bail early if the data is null or there is less than 1 row in the data
-    //        (talk; aissur)
+    // waka comot (Bail) if the data is null or there is less than 1 row in the data
         if (data == null || data.getCount() < 1) {
             return;
         }
@@ -109,6 +108,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     // Identifies a particular Loader being used in this component
     private static final int CURRENT_BOOK_LOADER = 0;
 
+    private boolean mBookHasChanged = false;
+
     /**
      * Content URI for the existing book (null if it's a new book)
      */
@@ -143,18 +144,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-//            public void dialPhoneNumber(String phoneNumber) {
-//        Intent intent = new Intent(Intent.ACTION_DIAL);
-//        intent.setData(Uri.parse("tel:" + phoneNumber));
-//        if (intent.resolveActivity(getPackageManager()) != null) {
-//            startActivity(intent);
-//        }
-//    }
-
 //        called when phone icon is pressed.
     Button callActionButton = (Button) findViewById(R.id.action_call);
-        callActionButton.setOnClickListener(new OnClickListener() {
-        public void onClick (View v){
+        callActionButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick (View v)
+        {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
                     mSupplierPhoneNumberEditText.getText().toString(), null));
             startActivity(intent);
@@ -164,19 +158,20 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     //called when decrease button is clicked.
     Button decreaseBookQuantityButton = (Button) findViewById(R.id.action_decrease);
-        decreaseBookQuantityButton.setOnClickListener(new OnClickListener() {
-        public void onClick(View v) {
+        decreaseBookQuantityButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v)
+        {
             int bookQuantity = 0;
-            String bookQuantityString = mBookQuantityEditText.getText().toString();
+            String bookQuantityString = mQuantityEditText.getText().toString();
             if(!TextUtils.isEmpty(bookQuantityString)) {
                 bookQuantity  = Integer.parseInt(bookQuantityString);
                 if(bookQuantity > 0) {
                     //update the flag to true, as the bookQuantity data is changed.
                     mBookHasChanged = true;
                     bookQuantity = bookQuantity - 1;
-                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+                    mQuantityEditText.setText(Integer.toString(bookQuantity));
                 }else{
-                    mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+                    mQuantityEditText.setText(Integer.toString(bookQuantity));
                 }
             }
         }
@@ -184,19 +179,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     //called when increase button is clicked.
     Button increaseBookQuantityButton = (Button) findViewById(R.id.action_increase);
-        increaseBookQuantityButton.setOnClickListener(new OnClickListener() {
+        increaseBookQuantityButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
             //update the flag to true, as the bookQuantity data is changed.
             mBookHasChanged = true;
             int bookQuantity = 0;
-            String bookQuantityString = mBookQuantityEditText.getText().toString();
+            String bookQuantityString = mQuantityEditText.getText().toString();
             if(!TextUtils.isEmpty(bookQuantityString)) {
                 bookQuantity  = Integer.parseInt(bookQuantityString);
                 bookQuantity = bookQuantity + 1;
-                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+                mQuantityEditText.setText(Integer.toString(bookQuantity));
             } else if(currentBookUri == null){
                 bookQuantity = bookQuantity + 1;
-                mBookQuantityEditText.setText(Integer.toString(bookQuantity));
+                mQuantityEditText.setText(Integer.toString(bookQuantity));
             }
         }
     });

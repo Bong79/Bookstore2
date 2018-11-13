@@ -110,12 +110,6 @@ public class BookCursorAdapter extends CursorAdapter {
         }
         // Update the TextViews with the attributes for the current book
         name.setText(bookName);
-//        author.setText(bookAuthor);
-//        Log.d(LOG_TAG, "bindView() returned: " + quantity);
-
-//        Since it it on line 121 and it is the setText method
-//        that threw the exception on a null object (TextView), we should check to make sure that the TextView is
-//        initialized and that its id matches the layout file, and the proper layout is being used.
         quantity.setText(booksInStock);
         price.setText(priceOfTheBook);
     }

@@ -33,7 +33,7 @@
     <string name="empty_view_subtitle_text">Add something o: \n Name, Price or Quantity! \n Click the Pink button!</string>
     <string name="out_of_stock_toast">Out of stock</string>
 
-    <string name="dolla">Dollar</string>
+
     <string name="sell">Sell</string>
     <string name="book_name_hint">book name hint</string>
 

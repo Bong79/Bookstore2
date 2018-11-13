@@ -70,33 +70,9 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
 
      /*
-            * These methods are called when the add and subtract button is clicked.
+      * These methods are called when the add and subtract button is clicked.
             */
 
-//    public void increment(View view) {
-//      if (edit_quantity == 100) {
-//        //show error message as toast
-//        Toast.makeText(this, R.string.toast1, Toast.LENGTH_SHORT).show();
-//        //exit this method early, nothing to do
-//        return;
-//      }
-//
-//      quantity = quantity + 1;
-//      displayQuantity(quantity);
-//    };
-//
-//    public void decrement(View view) {
-//      if (quantity == 1) {
-//        //show error message as toast
-//        Toast.makeText(this, R.string.toast2, Toast.LENGTH_SHORT).show();
-//        //exit this method early, nothing to do
-//        return;
-//      }
-//
-//      quantity = quantity - 1;
-//      displayQuantity(quantity);
-//    };
-//
 
     // Setup FAB to open EditorActivity
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
